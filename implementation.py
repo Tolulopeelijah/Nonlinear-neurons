@@ -43,7 +43,7 @@ optimizer = optim.SGD(model.parameters(), lr=0.1)
 epochs = 1000
 for epoch in range(epochs):
     optimizer.zero_grad()
-    y_pred = model(X)
+    y_pred = model(X).unsqueeze(1)
     loss = criterion(y_pred, y)
     loss.backward()
     optimizer.step()
@@ -54,4 +54,5 @@ for epoch in range(epochs):
 # Test the network
 with torch.no_grad():
     test_output = model(X)
-    print("Predictions:", test_output)
+    preds = [round(i) for i in test_output.numpy()]
+    print("Predictions:", preds)
